@@ -57,7 +57,7 @@ The project relies on several environment variables for configuration. Set these
 2. **Start Redis locally** (if not using Docker).
 3. **Install Requirements**: 
 ```bash
-pip install requirements,txt
+pip install requirements.txt
 ```
 4. **Start the Django server and Celery worker**:
    - Run `start_server.sh` to start the Django development server.
