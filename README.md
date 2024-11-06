@@ -63,6 +63,11 @@ pip install requirements.txt
    - Run `start_server.sh` to start the Django development server.
    - Run `start_worker.sh` to start the Celery worker.
 
+5. **Run tests**: Run the few available unittests
+ ```bash
+ python manage.py test
+ ```
+
 #### Running with Docker
 
 1. **Build and Start Containers**:
