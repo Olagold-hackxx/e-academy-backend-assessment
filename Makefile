@@ -29,7 +29,7 @@ logs:
 	docker logs -f $(LOCAL_WEB_CONTAINER_NAME)
 
 test:
-	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) pytest
+	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) python manage.py test
 
 ssh:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) /bin/sh

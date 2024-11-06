@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import User, OneTimePassword
 from django.contrib.auth import authenticate
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from account.tasks import send_verification_email
@@ -45,7 +45,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         validated_data.pop("confirm_password")
         user = User.objects.create_user(**validated_data)
         secret_key = generate_otp_secret()
-        print(secret_key)
         otp = generate_otp(secret_key)
         expires_at = timezone.now() + timedelta(minutes=5)
         # Hash the OTP before saving it
@@ -112,7 +111,7 @@ class ResendVerificationOTPSerializer(serializers.Serializer):
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
             secret_key = generate_otp_secret()
-            print(secret_key)
+
             otp = generate_otp(secret_key)
             print(otp)
             expires_at = timezone.now() + timedelta(minutes=5)
@@ -192,18 +191,16 @@ class VerifyOTPSerializer(serializers.Serializer):
         user_code_obj = OneTimePassword.objects.get(user__email=email)
         decrypted_code = user_code_obj.decrypt_code(user_code_obj.code)
         secret_key = str(user_code_obj.secret_key)
-        print(secret_key)
         try:
             if decrypted_code == otp and not user_code_obj.is_expired():
                 is_valid = verify_otp(secret_key, otp)
-                print(is_valid)
                 if not is_valid:
-                    raise TokenError("Expired OTP")
+                    raise ValidationError("Expired OTP")
             else:
-                raise TokenError("Invalid OTP")
+                raise ValidationError("Invalid OTP")
             user = User.objects.get(email=email)
             user.is_verified = True
             user.save()
             return super().validate(attrs)
         except Exception as e:
-            raise TokenError(f"Invalid or Expired OTP: {e}")
+            raise ValidationError(f"Invalid or Expired OTP: {e}")
