@@ -56,17 +56,22 @@ The project relies on several environment variables for configuration. Set these
    - Create a `.env` file in the project root and populate it with the required variables.
 2. **Start Redis locally** (if not using Docker).
 3. **Install Requirements**: 
-```bash
-pip install requirements.txt
-```
-4. **Start the Django server and Celery worker**:
+    ```bash
+    pip install requirements.txt
+    ```
+4. **Make startup scripts executable**:
+    ```bash
+    chmod +x start_server.sh
+    chmod +x start_worker.sh
+    ```
+5. **Start the Django server and Celery worker**:
    - Run `start_server.sh` to start the Django development server.
    - Run `start_worker.sh` to start the Celery worker.
 
-5. **Run tests**: Run the few available unittests
- ```bash
- python manage.py test
- ```
+6. **Run tests**: Run the few available unittests
+    ```bash
+    python manage.py test
+    ```
 
 #### Running with Docker
 
