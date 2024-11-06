@@ -10,6 +10,7 @@ This backend service supports account creation (signup), authentication (login),
   - [Running the Project](#running-the-project)
     - [Running Locally](#running-locally)
     - [Running with Docker](#running-with-docker)
+- [Admin Portal](#admin-portal)
 - [API Documentation](#api-documentation)
 - [Makefile Commands](#makefile-commands)
 
@@ -20,6 +21,7 @@ This backend service supports account creation (signup), authentication (login),
 - **Password Management**: Request password reset and set a new password securely.
 - **Scalable Email Handling**: Celery is used to handle email verification and password reset emails, allowing for better scalability and efficiency.
 - **API Documentation**: Interactive API documentation with Swagger and Redoc, accessible at `/api/swagger` and `/api/doc`.
+- **Admin Portal**: A customized Django admin interface provides easy access to data, user management, and data manipulation.
 
 ## Project Setup
 
@@ -105,6 +107,27 @@ The Makefile provides a convenient way to manage Docker containers and common de
 - **migrate**: Apply migrations to the database.
 - **reset-db**: Reset the database to a clean state.
 - **celery**: Start a Celery worker in the Celery container.
+
+## Admin Portal
+
+The project includes a **customized Django admin portal** accessible at `/admin`. This portal provides:
+- **Easy Data Manipulation**: View, create, update, and delete data entries directly in the admin.
+- **User Management**: Admin can easily manage user accounts and their details.
+- **Enhanced Accessibility**: Simplifies data access, making it easier for administrators to manage backend operations.
+
+To access the admin portal, create a superuser account using the following command:
+
+```bash
+python manage.py createsuperuser
+```
+or for Docker users
+
+```bash
+make superuser
+```
+
+
+You will be prompted to enter a username, email, and password. Once the superuser is created, you can log into the admin interface at `/admin` using these credentials.
 
 ## API Documentation
 
